@@ -1,0 +1,31 @@
+FROM alpine:latest
+
+# Install Node.js, PostgreSQL, and Jekyll
+RUN apk add --no-cache nodejs npm postgresql postgresql-contrib ruby ruby-dev build-base
+RUN gem install jekyll bundler
+
+# Set up PostgreSQL
+RUN mkdir -p /run/postgresql && chown -R postgres:postgres /run/postgresql
+USER postgres
+RUN initdb -D /var/lib/postgresql/data
+RUN pg_ctl start -D /var/lib/postgresql/data && \
+    createdb mosque_db && \
+    pg_ctl stop -D /var/lib/postgresql/data
+USER root
+
+# Set up working directory
+WORKDIR /app
+
+# Copy package.json and install dependencies
+COPY package.json .
+RUN npm install
+
+# Copy the rest of the application
+COPY . .
+
+# Build the SvelteKit app
+RUN npm run build
+
+EXPOSE 3000
+
+CMD ["npm", "run", "start"]

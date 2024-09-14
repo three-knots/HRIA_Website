@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  web:
+    build: ./web
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgres://postgres:password@db:5432/mosque_db
+    volumes:
+      - ./web/src:/app/src
+      - ./web/_posts:/app/_posts
+
+  db:
+    image: postgres:alpine
+    environment:
+      - POSTGRES_DB=mosque_db
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  postgres_data:
