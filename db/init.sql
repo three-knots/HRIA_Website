@@ -32,6 +32,16 @@ CREATE TABLE IF NOT EXISTS tool_loans (
     status VARCHAR(20) NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS masjid (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    address VARCHAR(255) NOT NULL,
+    admin_email VARCHAR(255) NOT NULL,
+    contact_method VARCHAR(255),
+    donation_links JSONB,
+    iqama_times JSONB
+);
+
 -- Insert some sample data
 INSERT INTO tool_categories (name) VALUES
 ('Garden Tools'),
