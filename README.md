@@ -27,8 +27,8 @@ Ensure you have the following installed on your machine:
 
 ```
 bash
-git clone https://github.com/your-username/hria-website.git
-cd hria-website
+git clone https://github.com/three-knots/HRIA_website.git
+cd HRIA_website
 
 ```
 
@@ -50,7 +50,7 @@ npm install
 
 ### Set Up Environment Variables
 
-_Create a `.env` file in the root directory._
+_Create a `.env` file in the root directory. (we will fill in values in next steps)_
 
 ```env
 GITHUB_CLIENT_ID=your_github_client_id
@@ -93,12 +93,17 @@ npm run dev
 
 - The application will be accessible at `http://localhost:5173`.
 
+## Running the Database Server
+
+View Supabase status with:
+
+```bash
+supabase status
+```
+
+The main console for Supabase is called Supabase Studio, and can be accessed through the `STUDIO URL` link from the status output.
+
 ## Additional Resources
-
-- **Database Management**
-
-  - View Supabase status: `supabase status`
-  - Access Supabase Studio via the `STUDIO URL` from the status output.
 
 - **Frontend Development**
 
@@ -108,7 +113,7 @@ npm run dev
 - **Tutorials**
   - [Drizzle with Supabase Tutorial](https://orm.drizzle.team/learn/tutorials/drizzle-with-supabase)
   - [SvelteKit Supabase Auth Guide](https://supabase.com/docs/guides/auth/server-side/sveltekit)
-  - [Main Tutorial Video](https://youtu.be/lEWghUOta-4?si=ksLuVTZ8BQ0DL2_4)
+  - [Main Tutorial Video from initial setup](https://youtu.be/lEWghUOta-4?si=ksLuVTZ8BQ0DL2_4)
 
 ## Troubleshooting
 
@@ -135,6 +140,14 @@ npm run dev
 ## License
 
 This project is licensed under the [GNU General Public License v3.0](LICENSE).
+
+## Acknowledgments
+
+[Ben Davis](https://www.youtube.com/@bmdavis419) for his tutorial that inspired me to change to supabase integration for the db, and the wonderful tutorial to set it up initially.
+
+[shadcdn](https://www.shadcn-svelte.com/) For the component library they graciously offer.
+
+[Sveltekit](https://kit.svelte.dev/docs/introduction), [Supabase](https://supabase.com/docs), [Tailwind](https://tailwindcss.com/docs/installation), [Drizzle](https://orm.drizzle.team/docs/overview), [Zod-form-data](https://www.npmjs.com/package/zod-form-data), and [Rich Harris](https://x.com/Rich_Harris) - Thank you all for providing amazing free products with fantastic documentation to help get things running properly!
 
 ---
 
