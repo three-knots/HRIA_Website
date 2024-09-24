@@ -61,17 +61,4 @@ const config: Config = {
 	},
 };
 
-import daisyui from 'daisyui';
-
-export const plugins = [
-  daisyui {
-	themes: [
-		{
-			"fantasy",
-			"luxury",
-		}
-	]
-  },
-];
-
 export default config;

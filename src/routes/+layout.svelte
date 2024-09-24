@@ -13,7 +13,25 @@
 
 		return () => data.subscription.unsubscribe();
 	});
+
+	import * as Menubar from '$lib/components/ui/menubar';
 </script>
+
+<Menubar.Root>
+	<Menubar.Menu>
+		<Menubar.Trigger>Home</Menubar.Trigger>
+
+		<Menubar.Trigger>Prayer Times</Menubar.Trigger>
+
+		<Menubar.Trigger>About</Menubar.Trigger>
+
+		<Menubar.Trigger>Donations</Menubar.Trigger>
+
+		<Menubar.Trigger>Events</Menubar.Trigger>
+		<Menubar.Trigger>Sisters</Menubar.Trigger>
+		<Menubar.Trigger>Youth</Menubar.Trigger>
+	</Menubar.Menu>
+</Menubar.Root>
 
 <div>
 	<h2>Hello from Layout</h2>
