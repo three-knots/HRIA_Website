@@ -21,6 +21,10 @@ Ensure you have the following installed on your machine:
 - [Docker](https://www.docker.com/get-started)
 - [Node.js](https://nodejs.org/) (if not using Bun)
 
+### Recommended
+
+- [Deno CLI](https://deno.com/manual/getting_started/installation)
+
 ## Installation
 
 ### Clone the Repository
