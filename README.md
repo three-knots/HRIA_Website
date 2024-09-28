@@ -126,7 +126,7 @@ The main console for Supabase is called Supabase Studio, and can be accessed thr
 - If something breaks and you're unsure why, try deleting the `.svelte-kit` and `node_modules` directories, then reinstall dependencies and restart the development server:
 
   ```bash
-  rm -rf .svelte-kit node_modules
+  rm -rf .svelte-kit node_modules .bun.lockb
   bun install
   bun run dev
   ```
