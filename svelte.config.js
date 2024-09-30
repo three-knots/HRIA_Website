@@ -15,6 +15,10 @@ const config = {
 		// alias: {
 	// 		$lib: 'src/lib' // Points to the src/lib directory
 	// 	}
+	},
+	compilerOptions: {
+		// runes: true
+            //Throws error from lucide-icons.  cannot change to runes mode until they update their syntax for svelte 5
 	}
 };
 

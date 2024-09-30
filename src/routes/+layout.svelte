@@ -28,17 +28,35 @@
 
 <Menubar.Root>
 	<Menubar.Menu>
-		<Menubar.Trigger>Home</Menubar.Trigger>
+		
+		<Menubar.Trigger>
+			<a href="/">Home</a>
+		</Menubar.Trigger>
 
-		<Menubar.Trigger>Prayer Times</Menubar.Trigger>
+		<Menubar.Trigger>
+			<a href="/prayer-times">Prayer Times</a>
+		</Menubar.Trigger>
+				
+		<Menubar.Trigger>
+			<a href="/about">About</a>
+		</Menubar.Trigger>
+		
+		<Menubar.Trigger>
+			<a href="/donations">Donations</a>
+		</Menubar.Trigger>
+		
+		<Menubar.Trigger>
+			<a href="/events">Events</a>
+		</Menubar.Trigger>
+		
+		<Menubar.Trigger>
+			<a href="/sisters">Sisters</a>
+		</Menubar.Trigger>
+		
+		<Menubar.Trigger>
+			<a href="/youth">Youth</a>
+		</Menubar.Trigger>
 
-		<Menubar.Trigger>About</Menubar.Trigger>
-
-		<Menubar.Trigger>Donations</Menubar.Trigger>
-
-		<Menubar.Trigger>Events</Menubar.Trigger>
-		<Menubar.Trigger>Sisters</Menubar.Trigger>
-		<Menubar.Trigger>Youth</Menubar.Trigger>
 	</Menubar.Menu>
 </Menubar.Root>
 
