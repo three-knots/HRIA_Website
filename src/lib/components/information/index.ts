@@ -11,9 +11,9 @@ interface Masjid {
 }
 
 const masjid: Masjid = {
-  name: '',
-  address: '',
-  phone: '',
+  name: 'Highlands Ranch Islamic Association',
+  address: '12345 E. Deer Creek Dr. Highlands Ranch, CO 80126',
+  phone: '303-987-6543',
   email: '',
   description: '',
   image: '',

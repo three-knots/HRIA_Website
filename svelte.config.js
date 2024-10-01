@@ -1,5 +1,10 @@
 import adapter from '@sveltejs/adapter-auto';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
+import { fileURLToPath } from 'url';
+import path from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -12,9 +17,10 @@ const config = {
 		// If your environment is not supported, or you settled on a specific environment, switch out the adapter.
 		// See https://kit.svelte.dev/docs/adapters for more information about adapters.
 		adapter: adapter(),
-		// alias: {
-	// 		$lib: 'src/lib' // Points to the src/lib directory
-	// 	}
+		alias: {
+			'@': path.resolve(__dirname, './src'),
+			'$lib': path.resolve(__dirname, './src/lib')
+		}
 	},
 	compilerOptions: {
 		// runes: true

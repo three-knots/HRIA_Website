@@ -7,7 +7,7 @@
 	import { Button } from '$lib/components/ui/button';
 </script>
 
->
+<h1>About</h1>
 
 <Card>
 	<CardHeader>
