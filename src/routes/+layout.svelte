@@ -83,7 +83,7 @@
   </DropdownMenu.Root>
 
 <div>
-	<h2>Hello from Layout</h2>
+	<h2>Hello from Layout.svelte</h2>
 	{@render children()}
 </div>
 
