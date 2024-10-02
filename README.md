@@ -152,3 +152,7 @@ This project is licensed under the [GNU General Public License v3.0](LICENSE).
 ---
 
 Feel free to contribute to the project by submitting issues or pull requests. For more detailed information, refer to the project's documentation and resources.
+
+Payload for CMS:
+    https://payloadcms.com/blog/setting-up-payload-with-supabase-for-your-nextjs-app-a-step-by-step-guide
+    

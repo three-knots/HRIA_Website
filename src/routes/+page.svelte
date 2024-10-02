@@ -1,33 +1,64 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { Button } from '$lib/components/ui/button';
-	import { Card } from '$lib/components/ui/card';
-	import { CardHeader } from '$lib/components/ui/card';
-	import { CardTitle } from '$lib/components/ui/card';
-	import { CardDescription } from '$lib/components/ui/card';
-	import { CardContent } from '$lib/components/ui/card';
+	import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '$lib/components/ui/card';
 	import { Label } from '$lib/components/ui/label';
 	import { Input } from '$lib/components/ui/input';
 	import { enhance } from '$app/forms';
 	import { invalidate } from '$app/navigation';
+	import masjid from '$lib/components/information';
+	import { Separator } from '$lib/components/ui/separator';
 
-	const { data } = $props();
-	const { userProfile } = data;
-	let firstName = $state('');
-	let lastName = $state('');
-	let email = $state('');
+	export let data;
+	const { userProfile, homePageData } = data;
 
-	$effect(() => {
-		if (userProfile) {
-			firstName = userProfile.firstName;
-			lastName = userProfile.lastName;
-			email = userProfile.email;
-		}
-	});
+	// Assuming there's only one entry in the Home Page table
+	// If there are multiple entries, you might want to select a specific one
+	const homePage = homePageData[0];
+
+	// const { data } = $props();
+	// const { userProfile } = data;
+	// let firstName = $state('');
+	// let lastName = $state('');
+	// let email = $state('');
+
+	// $effect(() => {
+	// 	if (userProfile) {
+	// 		firstName = userProfile.firstName;
+	// 		lastName = userProfile.lastName;
+	// 		email = userProfile.email;
+	// 	}
+	// });
 	// # grab data from page.server
 </script>
 
-{#if userProfile}
+<Card>
+	<CardHeader>
+		<CardTitle> {masjid.name} </CardTitle>
+		<CardDescription> Assalamu alaykum! Welcome to {masjid.name} </CardDescription>
+	</CardHeader>
+	<CardContent>
+		Please explore the links above to find more information on our various programs and events.
+	</CardContent>
+</Card>
+
+<Separator />
+
+<Card>
+	<CardHeader>
+		<CardTitle>{homePage?.CardTitle || 'About the Masjid'}</CardTitle>
+		<CardDescription>{homePage?.CardDescription || ''}</CardDescription>
+	</CardHeader>
+	<CardContent>
+		{homePage?.CardContent || ''}
+	</CardContent>
+</Card>
+
+<Separator />
+
+
+
+<!-- {#if userProfile}
 	<Card>
 		<CardHeader>
 			<CardTitle>Welcome, {firstName}!</CardTitle>
@@ -80,4 +111,4 @@
 	</Card>
 {:else}
 	<Button href="/auth/login">Login to the site!</Button>
-{/if}
+{/if} -->

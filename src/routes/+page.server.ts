@@ -1,46 +1,50 @@
 import { getOrCreateUserProfile } from "$lib/auth";
-import { db } from "$lib/db/index.js";
+import { db } from "$lib/db/index.ts";
 import { error } from "@sveltejs/kit";
 import { zfd } from "zod-form-data";
 import { eq } from "drizzle-orm";
-import { profileTable } from "$lib/db/schema.js";
+import { profileTable, homePageTable } from "$lib/db/schema.ts";
 
-export const load = async ({locals}) => {
-  const userProfile = await getOrCreateUserProfile(locals);  
-  return { userProfile }
+export const load = async ({ locals }) => {
+	const userProfile = await getOrCreateUserProfile(locals);
+	
+	// Fetch data from the 'Home Page' table
+	const homePageData = await db.select().from(homePageTable);
+	
+	return { userProfile, homePageData }
 }   
 
 export const actions = {
-  default: async ({request, locals}) => {
-    const userProfile = await getOrCreateUserProfile(locals);
+	default: async ({ request, locals }) => {
+		const userProfile = await getOrCreateUserProfile(locals);
 
-    if (!userProfile) {
-    error(401, "You need to be logged in to view this page.")
-  }
+		if (!userProfile) {
+			throw error(401, "You need to be logged in to view this page.")
+		}
 
-  const schema = zfd.formData({
-    firstName: zfd.text(),
-    lastName: zfd.text(),
-    email: zfd.text(),
-  });
+		const schema = zfd.formData({
+			firstName: zfd.text(),
+			lastName: zfd.text(),
+			email: zfd.text(),
+		});
 
-  const {data} = schema.safeParse(await request.formData());
+		const formData = await request.formData();
+		const result = schema.safeParse(formData);
 
-  if (!data) {
-    error(400,"Invalid form data");
-  } 
+		if (!result.success) {
+			throw error(400, "Invalid form data");
+		}
 
-  await db.update(profileTable).set({
-    firstName: data.firstName,
-    lastName: data.lastName,
-    email: data.email,
-  }).where(eq(profileTable.id, userProfile.id));
+		const { firstName, lastName, email } = result.data;
 
-  return {success: true}
+		await db.update(profileTable)
+			.set({
+				firstName,
+				lastName,
+				email,
+			})
+			.where(eq(profileTable.id, userProfile.id));
 
-  const formData = await request.formData();
-  const { firstName, lastName, email } = schema.parse(formData);
-  
-  
-}
+		return { success: true }
+	}
 }
