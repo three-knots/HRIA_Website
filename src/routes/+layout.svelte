@@ -1,11 +1,8 @@
 <script lang="ts">
-	import RadioGroup from './../lib/components/ui/radio-group/radio-group.svelte';
-	// import Content from './../../node_modules/vaul-svelte/dist/vaul/components/content.svelte';
-	import Separator from './../lib/components/ui/separator/separator.svelte';
-	// import { ArrowRight } from 'lucide-svelte/icons/arrow-right';
 	import '../app.css';
 	import { invalidate } from '$app/navigation';
 	import { ModeWatcher } from "mode-watcher"; //Dark Mode Support
+	import { imam } from '$lib/components/information';
 	const { data: propsData, children } = $props();
 
 	$effect(() => {
@@ -23,15 +20,11 @@
 	let bookmarks = false;
 	let fullUrls = true;
 
-	//dark mode button
-	import Sun from "lucide-svelte/icons/sun";
-	import Moon from "lucide-svelte/icons/moon";
-
 	import { resetMode, setMode } from "mode-watcher";
 	import * as DropdownMenu from "$lib/components/ui/dropdown-menu";
 	import { Button } from "$lib/components/ui/button";
 
-	const profileRadioValue = "system";	
+	const modeRadioValue = "system";	
 
 </script>
 
@@ -39,36 +32,92 @@
 
 	<Menubar.Menu> <a href="/"> Home </a> </Menubar.Menu>
 
-	<Menubar.Menu> <a href="/prayer-times"> Prayer Times </a> </Menubar.Menu>
-
-	<Menubar.Menu> <a href="/about"> About </a> </Menubar.Menu>
-
-	<Menubar.Menu> <a href="/donations"> Donations </a> </Menubar.Menu>
-
-	<Menubar.Menu> <a href="/events"> Events </a> </Menubar.Menu>
-
-	<Menubar.Menu> <a href="/sisters"> Sisters </a> </Menubar.Menu>
-
-	<Menubar.Menu> <a href="/youth"> Youth </a> </Menubar.Menu>
-	
+	<Menubar.Menu>
+		<Menubar.Trigger> Prayer Times </Menubar.Trigger>
+		<Menubar.Content>
+			<Menubar.Item> <a href="/prayer-times"> Prayer Times </a> </Menubar.Item>
+			<Menubar.Separator />
+			<Menubar.Item> <a href="/prayer-times/monthly"> Monthly Prayer Times </a> </Menubar.Item>
+			<Menubar.Separator />
+			<Menubar.Item> <a href="/prayer-times/yearly"> Yearly Prayer Times </a> </Menubar.Item>
+		</Menubar.Content>
+	</Menubar.Menu>
 
 	<Menubar.Menu>
-		<Menubar.Trigger> Light/Dark Mode </Menubar.Trigger>
+		<Menubar.Trigger> About </Menubar.Trigger>
 		<Menubar.Content>
-			<Menubar.Item> 
-				Set Light or Dark Mode
-			</Menubar.Item>
+			<Menubar.Item> <a href="/about"> About </a> </Menubar.Item>
+			<Menubar.Separator />
+			<Menubar.Item> <a href="/about/imam"> {imam.name} </a> </Menubar.Item>
+			<Menubar.Separator />
+			<Menubar.Item> <a href="/about/contact"> Contact </a> </Menubar.Item>
+		</Menubar.Content>
+	</Menubar.Menu>
+
+	<Menubar.Menu>
+		<Menubar.Trigger> Donations </Menubar.Trigger>
+		<Menubar.Content>
+			<Menubar.Item> <a href="/donations"> Donations </a> </Menubar.Item>
+			<Menubar.Separator />
+			<Menubar.Item> <a href="/donations/onetime"> One-Time Donations </a> </Menubar.Item>
+			<Menubar.Separator />
+			<Menubar.Item> <a href="/donations/recurring"> Recurring Donations </a> </Menubar.Item>
+			<Menubar.Separator />
+			<Menubar.Item> <a href="/donations/zakat"> Zakat </a> </Menubar.Item>
+		</Menubar.Content>
+	</Menubar.Menu>
+
+	<Menubar.Menu>
+		<Menubar.Trigger> Events </Menubar.Trigger>
+		<Menubar.Content>
+			<Menubar.Item> <a href="/events"> Events </a> </Menubar.Item>
+			<Menubar.Separator />
+			<Menubar.Item> <a href="/events/calendar"> Calendar </a> </Menubar.Item>
+			<Menubar.Separator />
+			<Menubar.Item> <a href="/events/ramadan"> Ramadan </a> </Menubar.Item>
+			<Menubar.Separator />
+			<Menubar.Item> <a href="/events/eid"> Eid </a> </Menubar.Item>
+		</Menubar.Content>
+	</Menubar.Menu>
+
+	<Menubar.Menu> 
+		<Menubar.Trigger> Sisters </Menubar.Trigger>
+		<Menubar.Content>
+			<Menubar.Item> <a href="/sisters"> Sisters </a> </Menubar.Item>
+			<Menubar.Separator />
+			<Menubar.Item> <a href="/sisters/events"> Events </a> </Menubar.Item>
+			<Menubar.Separator />
+			<Menubar.Item> <a href="/sisters/lessons"> Lessons </a> </Menubar.Item>
+		</Menubar.Content>
+	</Menubar.Menu>
+
+	<Menubar.Menu> 
+		<Menubar.Trigger> Youth </Menubar.Trigger>
+		<Menubar.Content>
+			<Menubar.Item> <a href="/youth"> Youth </a> </Menubar.Item>
+			<Menubar.Separator />
+			<Menubar.Item> <a href="/youth/madrassa"> Madrassa </a> </Menubar.Item>
+			<Menubar.Separator />
+			<Menubar.Item> <a href="/youth/sports"> Sports </a> </Menubar.Item>
 		</Menubar.Content>
 	</Menubar.Menu>
 	
+	<Menubar.Menu>    </Menubar.Menu>
+
 	<Menubar.Menu>
 		<Menubar.Trigger> Light/Dark Mode </Menubar.Trigger>
 		<Menubar.Content> 
-			<Menubar.RadioGroup>
-				<Menubar.RadioItem value="light">Light</Menubar.RadioItem>
-				<Menubar.RadioItem value="dark">Dark</Menubar.RadioItem>
-				<Menubar.RadioItem value="system">System</Menubar.RadioItem>
-			</Menubar.RadioGroup>
+			<Menubar.Item on:click={() => setMode("light")}>
+				Light
+			</Menubar.Item>
+			<Menubar.Separator />
+			<Menubar.Item on:click={() => setMode("dark")}>
+				Dark
+			</Menubar.Item>
+			<Menubar.Separator />
+			<Menubar.Item on:click={() => resetMode()}>
+				System
+			</Menubar.Item>
 		</Menubar.Content>
 	</Menubar.Menu>
 	
@@ -76,30 +125,9 @@
 </Menubar.Root>
 
 
-<!-- Dark Mode Button
-<DropdownMenu.Root>
-	<DropdownMenu.Trigger asChild let:builder>
-	  <Button builders={[builder]} variant="outline" size="icon">
-		<Sun
-		  class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
-		/>
-		<Moon
-		  class="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"
-		/>
-		<span class="sr-only">Toggle theme</span>
-	  </Button>
-	</DropdownMenu.Trigger>
-	<DropdownMenu.Content align="end">
-	  <DropdownMenu.Item on:click={() => setMode("light")}
-		>Light</DropdownMenu.Item
-	  >
-	  <DropdownMenu.Item on:click={() => setMode("dark")}>Dark</DropdownMenu.Item>
-	  <DropdownMenu.Item on:click={() => resetMode()}>System</DropdownMenu.Item>
-	</DropdownMenu.Content>
-  </DropdownMenu.Root> -->
 
 <div>
-	<h2>Hello from Layout.svelte</h2>
+	<!-- <h2>Hello from Layout.svelte</h2> -->
 	{@render children()}
 </div>
 

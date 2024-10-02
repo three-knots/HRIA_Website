@@ -10,6 +10,12 @@ interface Masjid {
   logo: string;
 }
 
+interface Imam {
+  name: string;
+  description: string;
+  image: string;
+}
+
 const masjid: Masjid = {
   name: 'Highlands Ranch Islamic Association',
   address: '12345 E. Deer Creek Dr. Highlands Ranch, CO 80126',
@@ -20,4 +26,11 @@ const masjid: Masjid = {
   logo: '',
 };
 
+const imam: Imam = {
+  name: 'Imam Name',
+  description: 'Imam Description',
+  image: 'Imam Image',
+};
+
 export default masjid;
+export { imam };
