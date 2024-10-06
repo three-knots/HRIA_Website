@@ -27,6 +27,8 @@
 # # Env
 .env
 .env.*
+.env.local
+.env.*.local
 # !.env.example
 # !.env.test
 
