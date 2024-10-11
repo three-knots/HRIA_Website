@@ -1,7 +1,7 @@
 import adapter from '@sveltejs/adapter-auto';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
-import { fileURLToPath } from 'url';
 import path from 'path';
+import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -24,7 +24,18 @@ const config = {
 	},
 	compilerOptions: {
 		// runes: true
-            //Throws error from lucide-icons.  cannot change to runes mode until they update their syntax for svelte 5
+            //Throws error from lucide-icons (and many many others).  cannot change to runes mode until they update their syntax for svelte 5
+	},
+	vite: {
+		define: {
+			// Dynamically inject environment variables without VITE_ prefix - for use with docker dev-environment
+			...['PUBLIC_SUPABASE_URL', 'PUBLIC_SUPABASE_ANON_KEY', 'GITHUB_CLIENT_ID', 'GITHUB_CLIENT_SECRET'].reduce((acc, key) => {
+				if (process.env[key]) {
+					acc[`import.meta.env.${key}`] = JSON.stringify(process.env[key]);
+				}
+				return acc;
+			}, {})
+		}
 	}
 };
 
