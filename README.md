@@ -21,9 +21,28 @@ Ensure you have the following installed on your machine:
 - [Docker](https://www.docker.com/get-started)
 - [Node.js](https://nodejs.org/) (if not using Bun)
 
-## Installation
+## Installation 
 
-### Clone the Repository
+There are three ways to install the project:
+
+1. Use the Ansible Playbook to install the project
+2. Use Docker to install the project in a container
+3. [Install the project manually](#clone-the-repository)
+
+### NEW: Use the Ansible Playbook to install the project
+
+Please see the [Ansible README](./dev-environment/ansible/README.md) for details.
+
+Ansible is a powerful automation tool that will install the project for you, and configure your environment.
+
+### Soon to come: Use Docker to install the project in a container
+
+Still working on this.
+
+
+### Install the project manually
+
+#### Clone the Repository
 
 ```
 bash
@@ -32,7 +51,7 @@ cd HRIA_website
 
 ```
 
-### Install Dependencies
+#### Install Dependencies
 
 Using Bun:
 
@@ -46,9 +65,9 @@ Or using npm:
 npm install
 ```
 
-## Configuration
+#### Configuration
 
-### Set Up Environment Variables
+##### Set Up Environment Variables
 
 _Create a `.env` file in the root directory. (we will fill in values in next steps)_
 
@@ -60,13 +79,13 @@ PUBLIC_SUPABASE_URL=your_supabase_url
 PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
 
-### Create a GitHub OAuth App
+##### Create a GitHub OAuth App
 
 1. Go to [GitHub Developer Settings](https://github.com/settings/developers).
 2. Create a new OAuth App for this project.
 3. Add the `Client ID` and `Client Secret` to your `.env` file as shown above.
 
-### Initialize Supabase
+#### Initialize Supabase
 
 ```bash
 supabase init

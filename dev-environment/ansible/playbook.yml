@@ -1,0 +1,239 @@
+---
+- name: Setup HRIA Website Development Environment
+  hosts: localhost
+  become: false
+  vars_prompt:
+    - name: "repo_url"
+      prompt: "Enter the Git repository URL"
+      default: "https://github.com/three-knots/HRIA_Website.git"
+    - name: "install_directory"
+      prompt: "Enter the directory where you want to clone the repository"
+      default: "~/dev-environment/HRIA_Website"
+
+  tasks:
+    - name: Create installation directory
+      file:
+        path: "{{ install_directory }}"
+        state: directory
+        mode: '0755'
+
+    - name: Clone the HRIA Website repository
+      git:
+        repo: "{{ repo_url }}"
+        dest: "{{ install_directory }}"
+        clone: yes
+        update: yes
+
+    - name: Install project dependencies using Bun
+      command: bun install
+      args:
+        chdir: "{{ install_directory }}"
+
+    - name: Initialize Supabase
+      command: supabase init
+      args:
+        chdir: "{{ install_directory }}"
+      register: supabase_init
+      ignore_errors: yes
+
+    - name: Start Supabase services
+      command: supabase start
+      args:
+        chdir: "{{ install_directory }}"
+      register: supabase_start
+      ignore_errors: yes
+
+    - name: Wait for Supabase to start
+      wait_for:
+        port: 54321
+        delay: 10
+        timeout: 300
+
+    - name: Fetch Supabase API URL
+      command: supabase status
+      args:
+        chdir: "{{ install_directory }}"
+      register: supabase_status_output
+      failed_when: supabase_status_output.rc != 0
+      changed_when: false
+
+    - name: Extract PUBLIC_SUPABASE_URL
+      set_fact:
+        public_supabase_url: "{{ supabase_status_output.stdout | regex_search('API URL:\\s*(https?://[^\\s]+)', '\\1') }}"
+
+    - name: Extract PUBLIC_SUPABASE_ANON_KEY
+      shell: |
+        grep SUPABASE_ANON_KEY .supabase/.env | cut -d '=' -f2
+      args:
+        chdir: "{{ install_directory }}"
+      register: supabase_anon_key_output
+      failed_when: supabase_anon_key_output.rc != 0
+      changed_when: false
+
+    - name: Set PUBLIC_SUPABASE_ANON_KEY fact
+      set_fact:
+        public_supabase_anon_key: "{{ supabase_anon_key_output.stdout.strip() }}"
+
+    - name: Set GitHub Client ID from environment or use placeholder
+      set_fact:
+        github_client_id: "{{ lookup('env', 'GITHUB_CLIENT_ID') | default('your_github_client_id') }}"
+
+    - name: Set GitHub Client Secret from environment or use placeholder
+      set_fact:
+        github_client_secret: "{{ lookup('env', 'GITHUB_CLIENT_SECRET') | default('your_github_client_secret') }}"
+
+    - name: Create .env file from template
+      template:
+        src: env.j2
+        dest: "{{ install_directory }}/.env"
+        mode: '0644'
+
+    - name: Generate Drizzle migrations
+      command: bun run db:generate
+      args:
+        chdir: "{{ install_directory }}"
+
+    - name: Initialize Git repository (if not already initialized)
+      git:
+        repo: "{{ repo_url }}"
+        dest: "{{ install_directory }}"
+        clone: yes
+      ignore_errors: yes
+
+    - name: Set Git user name
+      git_config:
+        name: user.name
+        value: "{{ git_user_name }}"
+        scope: local
+      vars:
+        git_user_name: "{{ lookup('env', 'USER') }}"
+
+    - name: Set Git user email
+      git_config:
+        name: user.email
+        value: "{{ git_user_email }}"
+        scope: local
+      vars:
+        git_user_email: "{{ lookup('env', 'USER') }}@localhost"
+
+    ## Environment Validation Checks
+    - name: Validate Required Tools are Installed
+      block:
+        - name: Check if git is installed
+          command: git --version
+          register: git_version
+          failed_when: git_version.rc != 0
+          changed_when: false
+        
+        - name: Check if docker is installed
+          command: docker --version
+          register: docker_version
+          failed_when: docker_version.rc != 0
+          changed_when: false
+        
+        - name: Check if bun is installed
+          command: bun --version
+          register: bun_version
+          failed_when: bun_version.rc != 0
+          changed_when: false
+        
+        - name: Check if ansible is installed
+          command: ansible --version
+          register: ansible_version
+          failed_when: ansible_version.rc != 0
+          changed_when: false
+
+        - name: Ensure git version is sufficient
+          assert:
+            that:
+              - "'git version 2' in git_version.stdout"
+            fail_msg: "Git version is too old. Please install Git version 2 or higher."
+            success_msg: "Git version is sufficient."
+
+        - name: Ensure docker is running
+          command: docker info
+          register: docker_info
+          ignore_errors: yes
+
+        - name: Assert Docker is running
+          assert:
+            that:
+              - docker_info.rc == 0
+            fail_msg: "Docker is not running. Please start Docker and try again."
+            success_msg: "Docker is running."
+
+    - name: Validate Environment Variables
+      block:
+        - name: Check if .env file exists
+          stat:
+            path: "{{ install_directory }}/.env"
+          register: env_file
+
+        - name: Fail if .env file is missing
+          fail:
+            msg: ".env file is missing. Ensure it has been created properly."
+          when: not env_file.stat.exists
+
+        - name: Verify required environment variables are set
+          shell: |
+            set -a
+            source {{ install_directory }}/.env
+            echo $GITHUB_CLIENT_ID
+            echo $GITHUB_CLIENT_SECRET
+            echo $SUPABASE_PROJECT_ID
+            echo $SUPABASE_API_URL
+            echo $SUPABASE_ANON_KEY
+          args:
+            executable: /bin/bash
+          register: env_vars
+          failed_when: false
+
+        - name: Assert all required environment variables are set
+          assert:
+            that:
+              - env_vars.stdout_lines | length >= 5
+              - "'your_github_client_id' not in env_vars.stdout"
+              - "'your_github_client_secret' not in env_vars.stdout"
+              - "'your_supabase_api_url' not in env_vars.stdout"
+            fail_msg: "One or more required environment variables are missing or contain placeholder values."
+            success_msg: "All required environment variables are set."
+
+    - name: Validate Supabase Initialization
+      block:
+        - name: Check Supabase status
+          command: supabase status
+          args:
+            chdir: "{{ install_directory }}"
+          register: supabase_status_check
+          failed_when: supabase_status_check.rc != 0
+          changed_when: false
+
+        - name: Assert Supabase is running
+          assert:
+            that:
+              - "'status': 'running' in supabase_status_check.stdout"
+            fail_msg: "Supabase is not running. Please ensure Supabase is initialized correctly."
+            success_msg: "Supabase is running correctly."
+
+    - name: Confirm Dependency Installation
+      block:
+        - name: Check if dependencies are installed
+          command: bun check
+          args:
+            chdir: "{{ install_directory }}"
+          register: bun_check
+          failed_when: bun_check.rc != 0
+          changed_when: false
+
+        - name: Assert Dependencies are Installed
+          assert:
+            that:
+              - bun_check.rc == 0
+            fail_msg: "Dependencies are not installed correctly. Please run `bun install` manually."
+            success_msg: "All dependencies are installed correctly."
+
+    ## Display setup completion message
+    - name: Display setup completion message
+      debug:
+        msg: |
+          Setup is complete! Navigate to {{ install_directory }} and run `bun run dev` to start the development server.
