@@ -16,7 +16,7 @@ const config = {
 	},
 
 	compilerOptions: {
-		runes: true
+		// runes: true
 	},
 
 	extensions: ['.svelte', '.svx']
