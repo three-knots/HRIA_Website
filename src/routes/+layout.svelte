@@ -47,7 +47,7 @@
 				<details>
 					<summary>Events</summary>
 					<ul class="p-2">
-						<li><a>Events</a></li>
+						<li><a href="/events">Events</a></li>
 						<li><a>Calendar</a></li>
 						<li><a>Ramadan</a></li>
 						<li><a>Eid</a></li>
@@ -58,7 +58,7 @@
 				<details>
 					<summary>Sisters</summary>
 					<ul class="p-2">
-						<li><a>Sisters</a></li>
+						<li><a href="/sisters">Sisters</a></li>
 						<li><a>Events</a></li>
 						<li><a>Lessons</a></li>
 						<li><a>Community</a></li>
@@ -69,7 +69,7 @@
 				<details>
 					<summary>Youth</summary>
 					<ul class="p-2">
-						<li><a>Youth</a></li>
+						<li><a href="/youth">Youth</a></li>
 						<li><a>Madrassa</a></li>
 						<li><a>Sports</a></li>
 						<li><a>Community</a></li>
@@ -91,7 +91,7 @@
 				<details>
 					<summary>Donations</summary>
 					<ul class="p-2">
-						<li><a>Donations</a></li>
+						<li><a href="/donations">Donations</a></li>
 						<li><a>One Time Donation</a></li>
 						<li><a>Recurring Donations</a></li>
 						<li><a>Zakat</a></li>
@@ -102,7 +102,7 @@
 				<details>
 					<summary>Community</summary>
 					<ul class="p-2">
-						<li><a>Community</a></li>
+						<li><a href="/community">Community</a></li>
 						<li><a>Group Activity Planning</a></li>
 						<li><a>Tool Sharing</a></li>
 						<li><a>Job Board</a></li>
