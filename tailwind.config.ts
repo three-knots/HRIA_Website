@@ -10,8 +10,9 @@ export default {
 	plugins: [require('@tailwindcss/typography'), require('daisyui')],
 
 	daisyui: {
-		themes: ['bumblebee', 'coffee', 'luxury'], // false: only light + dark | true: all themes | array: specific themes like this ["light", "dark", "cupcake"]
+		themes: ['bumblebee', 'coffee', 'luxury', 'lemonade'], // false: only light + dark | true: all themes | array: specific themes like this ["light", "dark", "cupcake"]
 		darkTheme: 'coffee', // name of one of the included themes for dark mode
+		lightTheme: 'bumblebee',
 		base: true, // applies background color and foreground color for root element by default
 		styled: true, // include daisyUI colors and design decisions for all components
 		utils: true, // adds responsive and modifier utility classes
