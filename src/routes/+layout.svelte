@@ -25,7 +25,7 @@
 				</svg>
 			</div>
 			<ul
-				tabindex="0"
+				tabindex="-1"
 				class="menu dropdown-content menu-sm z-[1] mt-3 w-52 rounded-box bg-base-100 p-2 shadow"
 			>
 				<li><a>Item 1</a></li>
@@ -49,9 +49,10 @@
 					<summary>Events</summary>
 					<ul class="p-2">
 						<li><a href="/events">Events</a></li>
-						<li><a>Calendar</a></li>
-						<li><a>Ramadan</a></li>
-						<li><a>Eid</a></li>
+						<li><a href="/events/announcements">Announcements</a></li>
+						<li><a href="/events/calendar">Calendar</a></li>
+						<li><a href="/events/ramadan">Ramadan</a></li>
+						<li><a href="/events/eid">Eid</a></li>
 					</ul>
 				</details>
 			</li>
@@ -60,9 +61,9 @@
 					<summary>Sisters</summary>
 					<ul class="p-2">
 						<li><a href="/sisters">Sisters</a></li>
-						<li><a>Events</a></li>
-						<li><a>Lessons</a></li>
-						<li><a>Community</a></li>
+						<li><a href="/sisters/events">Events</a></li>
+						<li><a href="/sisters/lessons">Lessons</a></li>
+						<li><a href="/sisters/community">Community</a></li>
 					</ul>
 				</details>
 			</li>
@@ -71,9 +72,9 @@
 					<summary>Youth</summary>
 					<ul class="p-2">
 						<li><a href="/youth">Youth</a></li>
-						<li><a>Madrassa</a></li>
-						<li><a>Sports</a></li>
-						<li><a>Community</a></li>
+						<li><a href="/youth/madrassa">Madrassa</a></li>
+						<li><a href="/youth/sports">Sports</a></li>
+						<li><a href="/youth/community">Community</a></li>
 					</ul>
 				</details>
 			</li>
@@ -82,9 +83,9 @@
 					<summary>About</summary>
 					<ul class="p-2">
 						<li><a href="/about">About</a></li>
-						<li><a>Imam</a></li>
-						<li><a>Contact</a></li>
-						<li><a>Location</a></li>
+						<li><a href="/about/imam">Imam</a></li>
+						<li><a href="/about/contact">Contact</a></li>
+						<li><a href="/about/location">Location</a></li>
 					</ul>
 				</details>
 			</li>
@@ -93,9 +94,9 @@
 					<summary>Donations</summary>
 					<ul class="p-2">
 						<li><a href="/donations">Donations</a></li>
-						<li><a>One Time Donation</a></li>
-						<li><a>Recurring Donations</a></li>
-						<li><a>Zakat</a></li>
+						<li><a href="/donations/one-time">One Time Donation</a></li>
+						<li><a href="/donations/recurring">Recurring Donations</a></li>
+						<li><a href="/donations/zakat">Zakat</a></li>
 					</ul>
 				</details>
 			</li>
@@ -104,9 +105,9 @@
 					<summary>Community</summary>
 					<ul class="p-2">
 						<li><a href="/community">Community</a></li>
-						<li><a>Group Activity Planning</a></li>
-						<li><a>Tool Sharing</a></li>
-						<li><a>Job Board</a></li>
+						<li><a href="/community/group-activity-planning">Group Activity Planning</a></li>
+						<li><a href="/community/tool-sharing">Tool Sharing</a></li>
+						<li><a href="/community/job-board">Job Board</a></li>
 					</ul>
 				</details>
 			</li>
