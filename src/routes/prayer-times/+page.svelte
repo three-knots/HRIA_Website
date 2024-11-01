@@ -5,7 +5,8 @@
 	let prayerTimes: any = null;
 	let loading = true;
 	let error: string | null = null;
-	let iqamaTimes: any = null;
+
+	// Helper function to format the current date
 	const formatDate = () => {
 		const today = new Date();
 		const dd = String(today.getDate()).padStart(2, '0');
@@ -14,11 +15,36 @@
 		return `${dd}-${mm}-${yyyy}`;
 	};
 
+	// Helper function to add minutes to a time string "HH:MM"
+	const addMinutes = (time: string, minutes: number): string => {
+		const [hours, mins] = time.split(':').map(Number);
+		const date = new Date();
+		date.setHours(hours, mins + minutes, 0, 0);
+		const newHours = String(date.getHours()).padStart(2, '0');
+		const newMinutes = String(date.getMinutes()).padStart(2, '0');
+		return `${newHours}:${newMinutes}`;
+	};
+
+	// Function to compute Iqama time based on db settings
+	const computeIqamaTime = (prayerName: string, prayerTime: string): string => {
+		const iqamaSetting = data.iqama.find(
+			(iq: any) => iq.prayer_name.toLowerCase() === prayerName.toLowerCase()
+		);
+		if (iqamaSetting) {
+			if (iqamaSetting.iqama_time) {
+				return iqamaSetting.iqama_time;
+			} else if (iqamaSetting.diff_time) {
+				return addMinutes(prayerTime, iqamaSetting.diff_time);
+			}
+		}
+		return '';
+	};
+
 	const fetchPrayerTimes = async () => {
 		try {
 			const date = formatDate();
 			const response = await fetch(
-				`https://api.aladhan.com/v1/timingsByCity/${date}?city=${data.city}&country=${data.country}&method=2`
+				`https://api.aladhan.com/v1/timingsByCity/${date}?city=${data.city.answer}&country=${data.country.answer}&method=2`
 			);
 			const result = await response.json();
 			prayerTimes = result.data.timings;
@@ -48,27 +74,31 @@
 					<p class="text-red-400">{error}</p>
 				{:else if prayerTimes}
 					<div class="grid grid-cols-3 gap-4 text-left">
-						<div>Fajr:</div>
-						<div>{prayerTimes.Fajr}</div>
-						<div>Iqama: 6:30</div>
-						<div>Sunrise:</div>
-						<div>{prayerTimes.Sunrise}</div>
-						<div></div>
-						<div>Dhuhr:</div>
-						<div>{prayerTimes.Dhuhr}</div>
-						<div>Iqama: 1:30</div>
-						<div>Asr:</div>
-						<div>{prayerTimes.Asr}</div>
-						<div>Iqama: 3:30</div>
-						<div>Maghrib:</div>
-						<div>{prayerTimes.Maghrib}</div>
-						<div>Iqama: 5:30</div>
-						<div>Isha:</div>
-						<div>{prayerTimes.Isha}</div>
-						<div>Iqama: 6:30</div>
+						{#each Object.keys(prayerTimes) as prayer}
+							{#if prayer !== 'Sunset' && prayer !== 'Imsak' && prayer !== 'Midnight' && prayer !== 'FirstDhuhr' && prayer !== 'LastThird' && prayer !== 'Ma3shar' && prayer !== 'Firstthird' && prayer !== 'Lastthird'}
+								<div>{prayer}:</div>
+								<div>{prayerTimes[prayer]}</div>
+								<div>
+									{#if prayer !== 'Sunrise' && prayer !== 'Sunset' && prayer !== 'Imsak'}
+										{#if computeIqamaTime(prayer, prayerTimes[prayer])}
+											Iqama: {computeIqamaTime(prayer, prayerTimes[prayer])}
+										{:else}
+											N/A
+										{/if}
+									{/if}
+								</div>
+							{/if}
+						{/each}
+						<!-- Jumuah times can be handled separately if needed -->
 						<div>Jumuah:</div>
-						<div>First: 12:00</div>
-						<div>Second: 1:00</div>
+						<div>
+							First: {data.iqama.find((iq: any) => iq.prayer_name.toLowerCase() === 'jumuah1')
+								?.iqama_time || '12:00'}
+						</div>
+						<div>
+							Second: {data.iqama.find((iq: any) => iq.prayer_name.toLowerCase() === 'jumuah2')
+								?.iqama_time || '13:00'}
+						</div>
 					</div>
 				{/if}
 			</div>
