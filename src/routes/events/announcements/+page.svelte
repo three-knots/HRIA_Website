@@ -7,12 +7,17 @@
 		<li>{announcement.title}</li>
 	{/each}
 </ul>
-
-<div class="hero min-h-screen bg-base-200">
-	<div class="hero-content text-center">
-		<div class="max-w-md">
-			<h1 class="text-5xl font-bold">Announcements</h1>
-			<p class="py-6">Click the title of each announcement to view the details.</p>
+<div class="lg:card-bottom card bg-base-100 shadow-xl">
+	<figure>
+		<img
+			src="https://images.unsplash.com/photo-1598723106396-f89827f6aa1a?q=80&w=2073&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+			alt="Announcements"
+		/>
+	</figure>
+	<div class="card-body">
+		<h2 class="card-title justify-center">Announcements</h2>
+		<p class="body text-center">Click the title of each announcement to view the details.</p>
+		<div class="card-actions justify-center">
 			<button
 				class="btn btn-primary"
 				on:click={() =>

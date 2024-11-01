@@ -1,5 +1,7 @@
 # Highlands Ranch Islamic Association Website
 
+## Important! - This Readme file was copied over from an earlier iteration of the project. It is not yet updated for the current state of the project. Sorry for the inconvenience.
+
 Welcome to the Highlands Ranch Islamic Association (HRIA) website project! This repository contains the source code for the HRIA website, built with SvelteKit and Supabase. Follow the instructions below to set up the project locally for development.
 
 ## Table of Contents
@@ -21,7 +23,7 @@ Ensure you have the following installed on your machine:
 - [Docker](https://www.docker.com/get-started)
 - [Node.js](https://nodejs.org/) (if not using Bun)
 
-## Installation 
+## Installation
 
 There are three ways to install the project:
 
@@ -38,7 +40,6 @@ Ansible is a powerful automation tool that will install the project for you, and
 ### Soon to come: Use Docker to install the project in a container
 
 Still working on this.
-
 
 ### Install the project manually
 
@@ -173,5 +174,4 @@ This project is licensed under the [GNU General Public License v3.0](LICENSE).
 Feel free to contribute to the project by submitting issues or pull requests. For more detailed information, refer to the project's documentation and resources.
 
 Payload for CMS:
-    https://payloadcms.com/blog/setting-up-payload-with-supabase-for-your-nextjs-app-a-step-by-step-guide
-    
+https://payloadcms.com/blog/setting-up-payload-with-supabase-for-your-nextjs-app-a-step-by-step-guide

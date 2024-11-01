@@ -1,4 +1,5 @@
 <script>
+	export let data;
 </script>
 
 <div
@@ -22,9 +23,22 @@
 	<div class="card w-96 bg-primary text-primary-content">
 		<div class="card-body">
 			<h2 class="card-title">Announcements</h2>
-			<p>Recent announcements will be displayed here.</p>
+			<!-- This automatically adds a new collapsible section for each announcement every time a new announcement is added to the database under the Announcements table -->
+			<div id="group-focus" class="group-focus group">
+				{#each data.announcements as announcement}
+					<div
+						tabindex="-1"
+						class="collapse bg-primary text-primary-content focus:bg-secondary focus:text-secondary-content"
+					>
+						<div class="collapse-title">{announcement.announcement_subject}</div>
+						<div class="collapse-content">
+							<p>{announcement.announcement_body}</p>
+						</div>
+					</div>
+				{/each}
+			</div>
 			<div class="card-actions justify-end">
-				<button class="btn">Announcements Page</button>
+				<a href="/events/announcements" class="btn">Announcements Page</a>
 			</div>
 		</div>
 	</div>
